@@ -17,11 +17,13 @@ from socketer.server import VisOpen3DSocket
 #
 # ## config
 # cfg_file = '../config/v3d.yml'
-cfg_file = '../config/smpl_scene.yml'
+# cfg_file = '../config/smpl_scene.yml'
+cfg_file = '../config/smplx_scene.yml'
+# cfg_file = '../config/manol_scene.yml'
 _cfg_file = yaml.load(cfg_file, Loader=yaml.FullLoader)
 cfg.merge_from_file(_cfg_file)
 
-test = VisOpen3DSocket(cfg.host,cfg.port,cfg)
+server = VisOpen3DSocket(cfg.host,cfg.port,cfg)
 
 while True:
-    test.update()
+    server.update()

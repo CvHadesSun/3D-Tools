@@ -1,3 +1,4 @@
+
 host: '127.0.0.1'
 port: 9999
 
@@ -14,15 +15,19 @@ write: False
 out: 'none'
 body_model_template: ''
 
+
+
 body_model:
   module: "easymocap.smplmodel.body_model.SMPLlayer"
   args:
     _no_merge_: True
-    model_path: 'data/smplx/smpl'
-    model_type: "smpl"
+    model_path: "data/smplx/smplx"
+    model_type: "smplx"
     gender: "neutral"
     device: "cpu"
-    regressor_path: "data/smplx/J_regressor_body25.npy"
+    regressor_path: "data/smplx/J_regressor_body25_smplx.txt"
+
+
 
 camera:
   phi: 0
@@ -56,5 +61,3 @@ range:
   maxr: [ 100,  100,  100]
   rate_inlier: 0.8
   min_conf: 0.1
-
-

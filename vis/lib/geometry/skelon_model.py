@@ -4,7 +4,7 @@ import cv2
 from os.path import join
 import os
 from geometry.skelon_params import CONFIG
-
+from geometry.smpl_model.body_model import SMPLlayer as SMPLSKEL
 
 def calTransformation(v_i, v_j, r, adaptr=False, ratio=10):
     """ from to vertices to T
@@ -120,33 +120,3 @@ class SkelModel:
 
         return {'keypoints3d': np.ones((self.nJoints, 4))}
 
-
-class SMPLSKEL:
-    def __init__(self, model_type=None, gender=None, body_type=None,**kwargs) -> None:
-        from .smpl_model import load_model
-        # print(body_type)
-        config = CONFIG[body_type]
-        model_path = kwargs['model_path']
-        cur_dir = os.path.dirname(__file__)
-        model_path_ = os.path.join(cur_dir,'..',model_path)
-        self.smpl_model = load_model(gender, model_type=model_type, skel_type=body_type,model_path=model_path_)
-        self.body_model = SkelModel(config['nJoints'], config['kintree'])
-        self.faces = self.smpl_model.faces
-        self.color = None
-        self.nVertices  = self.body_model.nJoints
-
-    def __call__(self, return_verts=True,return_tensor=False, **kwargs):
-        keypoints3d = self.smpl_model(return_verts=False, return_tensor=False, **kwargs)
-
-        if not return_verts:
-            return keypoints3d
-        else:
-
-            verts = self.body_model(return_verts=True, return_tensor=False, keypoints3d=keypoints3d[0])
-            return verts
-
-    def init_params(self, nFrames):
-        # return np.zeros((self.body_model.nJoints, 4))
-        init_params= self.smpl_model.init_params()
-        init_params['keypoints3d'] = np.zeros((self.body_model.nJoints, 4))
-        return init_params

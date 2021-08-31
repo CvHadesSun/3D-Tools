@@ -18,11 +18,11 @@ body_model:
   module: "easymocap.smplmodel.body_model.SMPLlayer"
   args:
     _no_merge_: True
-    model_path: 'data/smplx/smpl'
-    model_type: "smpl"
+    model_path: "data/smplx/smplh/MANO_LEFT.pkl"
+    model_type: "mano"
     gender: "neutral"
     device: "cpu"
-    regressor_path: "data/smplx/J_regressor_body25.npy"
+    regressor_path: "data/smplx/J_regressor_mano_LEFT.txt"
 
 camera:
   phi: 0

@@ -22,6 +22,9 @@ def to_np(array, dtype=np.float32):
 
 
 def load_regressor(regressor_path):
+    cur_dir = os.path.dirname(__file__)
+    data_dir = os.path.join(cur_dir,'../..')
+    regressor_path = os.path.join(data_dir,regressor_path)
     if regressor_path.endswith('.npy'):
         X_regressor = to_tensor(np.load(regressor_path))
     elif regressor_path.endswith('.txt'):
@@ -39,6 +42,11 @@ def load_regressor(regressor_path):
 
 
 def load_bodydata(model_type, model_path, gender):
+    cur_dir = os.path.dirname(__file__)
+    # modify the path of data
+    data_dir = os.path.join(cur_dir,'../..')
+    model_path = os.path.join(data_dir,model_path)
+
     if osp.isdir(model_path):
         model_fn = '{}_{}.{ext}'.format(model_type.upper(), gender.upper(), ext='pkl')
         smpl_path = osp.join(model_path, model_fn)
