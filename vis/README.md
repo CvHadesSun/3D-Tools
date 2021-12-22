@@ -10,7 +10,7 @@ extract the source code from [EasyMocap](https://github.com/zju3dv/EasyMocap/blo
 ## ENV
 - open3d==0.9.0
 - torch (for smpl-like model.)
-## USSAGE 
+## USAGE 
 **should put the `data/` into `${vis/lib}`.**
 ```buildoutcfg
 cd ${vis}/main
