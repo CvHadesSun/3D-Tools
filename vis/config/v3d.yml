@@ -37,10 +37,10 @@ scene:
     white: [ 1., 1., 1. ]
     black: [ 0.6509803921568628, 0.8980392156862745, 0.8 ]
     two_sides: True
-#  "easymocap.visualize.o3dwrapper.create_coord":
-#    camera: [0, 0, 0]
-#    radius: 1.
-#    scale: 1.
+  "easymocap.visualize.o3dwrapper.create_coord":
+    camera: [0, 0, 0]
+    radius: 1.
+    scale: 1.
   "easymocap.visualize.o3dwrapper.create_bbox":
     min_bound: [-3, -3, 0]
     max_bound: [3, 3, 2]

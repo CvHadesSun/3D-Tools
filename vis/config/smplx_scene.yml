@@ -5,7 +5,7 @@ port: 9999
 width: 1920
 height: 1080
 
-max_human: 5
+max_human: 1
 track: True
 filter: True
 block: True # block visualization or not, True for visualize each frame, False in realtime applications
@@ -26,6 +26,9 @@ body_model:
     gender: "neutral"
     device: "cpu"
     regressor_path: "data/smplx/J_regressor_body25_smplx.txt"
+    with_color: True
+    texture: "data/textures/blur_7.png"
+    uv: "data/textures/uv_o3d.npy"
 
 
 
@@ -47,10 +50,10 @@ scene:
     white: [ 1., 1., 1. ]
     black: [ 0.6509803921568628, 0.8980392156862745, 0.8 ]
     two_sides: True
-  "easymocap.visualize.o3dwrapper.create_coord":
-    camera: [0, 0, 0]
-    radius: 1.
-    scale: 1.
+#  "easymocap.visualize.o3dwrapper.create_coord":
+#    camera: [0, 0, 0]
+#    radius: 1.
+#    scale: 1.
   "easymocap.visualize.o3dwrapper.create_bbox":
     min_bound: [-3, -3, 0]
     max_bound: [3, 3, 2]

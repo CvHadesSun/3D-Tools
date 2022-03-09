@@ -6,6 +6,7 @@ import os.path as osp
 import pickle
 import numpy as np
 import os
+import cv2
 
 
 def to_tensor(array, dtype=torch.float32, device=torch.device('cpu')):
@@ -41,12 +42,20 @@ def load_regressor(regressor_path):
     return X_regressor
 
 
-def load_bodydata(model_type, model_path, gender):
+def load_bodydata(model_type, model_path, gender,texture,uv):
     cur_dir = os.path.dirname(__file__)
     # modify the path of data
     data_dir = os.path.join(cur_dir,'../..')
     model_path = os.path.join(data_dir,model_path)
 
+    tex_img=None
+    uv_c = None
+    if texture is not None:
+        texture_dir = os.path.join(data_dir,texture)
+        tex_img = cv2.imread(texture_dir)
+        tex_img = cv2.cvtColor(tex_img, cv2.COLOR_BGR2RGB)
+        tex_img = cv2.flip(tex_img, 0)
+        uv_c = np.load(os.path.join(data_dir,uv))
     if osp.isdir(model_path):
         model_fn = '{}_{}.{ext}'.format(model_type.upper(), gender.upper(), ext='pkl')
         smpl_path = osp.join(model_path, model_fn)
@@ -57,7 +66,7 @@ def load_bodydata(model_type, model_path, gender):
 
     with open(smpl_path, 'rb') as smpl_file:
         data = pickle.load(smpl_file, encoding='latin1')
-    return data
+    return data,tex_img,uv_c
 
 
 NUM_POSES = {'smpl': 72, 'smplh': 78, 'smplx': 66 + 12 + 9, 'mano': 9}
@@ -69,7 +78,7 @@ class SMPLlayer(nn.Module):
     def __init__(self, model_path, model_type='smpl', gender='neutral', device=None,
                  regressor_path=None,
                  use_pose_blending=True, use_shape_blending=True, use_joints=True,
-                 with_color=False,
+                 with_color=False,texture=None,uv=None,
                  **kwargs) -> None:
         super(SMPLlayer, self).__init__()
         dtype = torch.float32
@@ -83,9 +92,10 @@ class SMPLlayer(nn.Module):
         self.device = device
         self.model_type = model_type
         # create the SMPL model
-        data = load_bodydata(model_type, model_path, gender)
-        if with_color:
-            self.color = data['vertex_colors']
+        data,tex_img,uv_c = load_bodydata(model_type, model_path, gender,texture,uv)
+
+        if with_color and texture is not None and uv is not None:
+            self.color = {"texture":tex_img,"uv":uv_c}
         else:
             self.color = None
         self.faces = data['f']

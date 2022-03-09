@@ -20,30 +20,46 @@ def create_mesh(vertices, faces, colors=None, **kwargs):
     mesh.vertices = Vector3dVector(vertices)
     mesh.triangles = Vector3iVector(faces)
     if colors is not None:
+        # mesh.vertex_colors = Vector3dVector(colors)
+        tex_img = colors["texture"]
+        uv_c = colors["uv"]
+        mesh.triangle_uvs = o3d.open3d.utility.Vector2dVector(uv_c)
+        mesh.triangle_material_ids = o3d.utility.IntVector([0] * len(faces))
+        mesh.textures = [o3d.geometry.Image(tex_img)]
+        print("test")
+    else:
+        mesh.paint_uniform_color([1., 0.8, 0.8])
+    mesh.compute_vertex_normals()
+    return mesh
+
+def create_meshV2(vertices, faces, colors=None, **kwargs):
+    mesh = TriangleMesh()
+    mesh.vertices = Vector3dVector(vertices)
+    mesh.triangles = Vector3iVector(faces)
+    if colors is not None:
         mesh.vertex_colors = Vector3dVector(colors)
     else:
         mesh.paint_uniform_color([1., 0.8, 0.8])
     mesh.compute_vertex_normals()
     return mesh
 
-
 def create_point(**kwargs):
-    return create_mesh(**create_point_(**kwargs))
+    return create_meshV2(**create_point_(**kwargs))
 
 
 def create_line(**kwargs):
-    return create_mesh(**create_line_(**kwargs))
+    return create_meshV2(**create_line_(**kwargs))
 
 
 def create_ground(**kwargs):
     ground = create_ground_(**kwargs)
-    return create_mesh(**ground)
+    return create_meshV2(**ground)
 
 
 def create_coord(camera=[0, 0, 0], radius=1, scale=1):
     camera_frame = TriangleMesh.create_coordinate_frame(
         size=radius, origin=camera)
-    camera_frame.scale(scale)
+    # camera_frame.scale(scale) # open3d 0.9.0
     return camera_frame
 
 

@@ -12,6 +12,7 @@ from .tools import Timer, log, CritRange, get_rgb_01
 rotate = False
 
 
+
 def o3d_callback_rotate(vis=None):
     global rotate
     rotate = not rotate

@@ -50,3 +50,5 @@ def main(args):
     else:
         send_rand(client)
 
+    print("done")
+
