@@ -23,11 +23,11 @@ body_model:
     _no_merge_: True
     model_path: "data/smplx/smplx"
     model_type: "smplx"
-    gender: "neutral"
+    gender: "male"
     device: "cpu"
     regressor_path: "data/smplx/J_regressor_body25_smplx.txt"
     with_color: True
-    texture: "data/textures/blur_7.png"
+    texture: "data/textures/flame2smplx.png"
     uv: "data/textures/uv_o3d.npy"
 
 
